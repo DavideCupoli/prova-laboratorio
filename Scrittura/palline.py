@@ -35,6 +35,7 @@ LARGHEZZA = 800
 ALTEZZA = 600
 VELOCITA_MAX = 5
 RAGGIO = 20
+RAGGIO_MINIMO = 5
 
 class Pallina:
     def __init__(self, x, y, vx, vy, colore, raggio):
@@ -89,7 +90,7 @@ class Pallina:
         }
     
 
-def crea_pallina_da_dizionario(self, dati):
+def crea_pallina_da_dizionario(dati):
     """Ricrea una pallina da un dizionario"""
     return Pallina(
         dati['x'],
@@ -129,12 +130,11 @@ class GiocoPalline(arcade.Window):
             for j in range(i + 1, len(self.palline)):
                 if self.palline[j] != None and self.palline[i] != None:
                     self.palline[i].controlla_collisione(self.palline[j])
-                    if self.palline[i].raggio < 10:
+                    if self.palline[i].raggio < RAGGIO_MINIMO:
                         self.palline[i] = None
         
         while None in self.palline:
             self.palline.remove(None)
-            print('Pallina scomparsa')
     
     def on_mouse_press(self, x, y, button, modifiers):
         colore = (
@@ -154,7 +154,7 @@ class GiocoPalline(arcade.Window):
             self.carica_json()
     
     def salva_json(self):
-        nome_file = "palline.json"
+        nome_file = "palline_2.json"
         
         try:
             # Converti ogni pallina in un dizionario
